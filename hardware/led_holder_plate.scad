@@ -30,7 +30,7 @@ module cap_holes() {
                        0]) 
 			translate([LED_STRIPE_HORIZ_DISTANCE/2, 
                        LED_STRIPE_VERT_DISTANCE/2, 
-                       LED_HOLDER_PLATE_HEIGHT]) 
+                       LED_HOLDER_PLATE_HEIGHT-LED_STRIPE_CAP_DEPTH/2]) 
                 cube([LED_STRIPE_CAP_WIDTH, 
                       LED_STRIPE_CAP_HEIGHT, 
                       LED_STRIPE_CAP_DEPTH+0.01], 
@@ -77,14 +77,13 @@ module separator_cutout() {
 }
 
 module fit_inner_cube() {
-    size_x = TOTAL_WIDTH-2*OUTER_WALL_THICKNESS-INNER_PLATE_TOLERANCE/2;
-    size_y = TOTAL_HEIGHT-2*OUTER_WALL_THICKNESS-INNER_PLATE_TOLERANCE/2;
+    size_x = TOTAL_WIDTH-2*OUTER_WALL_THICKNESS-2*INNER_PLATE_TOLERANCE;     size_y = TOTAL_HEIGHT-2*OUTER_WALL_THICKNESS-2*INNER_PLATE_TOLERANCE;
     difference() {
-        translate([OUTER_WALL_THICKNESS+INNER_PLATE_TOLERANCE/2,
-                   OUTER_WALL_THICKNESS+INNER_PLATE_TOLERANCE/2, 
+        translate([OUTER_WALL_THICKNESS+INNER_PLATE_TOLERANCE,
+                   OUTER_WALL_THICKNESS+INNER_PLATE_TOLERANCE, 
                    -10])
             cube([size_x, size_y, 100]);
-        corner_holes_walls(offset = INNER_PLATE_TOLERANCE/2, h=100);
+        corner_holes_walls(offset = INNER_PLATE_TOLERANCE, h=100);
     }
 }
 
@@ -99,11 +98,11 @@ module led_holder_plate() {
             screw_holes();
             separator_cutout();
         };
-        translate([0,0,-01]) fit_inner_cube();
+        translate([0,0,-30]) fit_inner_cube();
     }
 }
 
 // arranged for 3d-printing / stl-export
-translate([0, 0, LED_HOLDER_PLATE_HEIGHT]) 
+translate([TOTAL_WIDTH, 0, LED_HOLDER_PLATE_HEIGHT]) 
     rotate([0,180,0]) 
         led_holder_plate();
