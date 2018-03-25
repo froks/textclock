@@ -27,14 +27,26 @@ module cap_holes() {
 		for (x = [0 : 1 : LETTER_MATRIX_WIDTH - 1]) {
             translate([HORIZ_SIDE_EXTRA + LED_STRIPE_HORIZ_DISTANCE*x+LED_STRIPE_CAP_OFFSET_X,
                        VERT_SIDE_EXTRA + LED_STRIPE_VERT_DISTANCE*y+LED_STRIPE_CAP_OFFSET_Y, 
-                       0]) 
-			translate([LED_STRIPE_HORIZ_DISTANCE/2, 
-                       LED_STRIPE_VERT_DISTANCE/2, 
-                       LED_HOLDER_PLATE_HEIGHT-LED_STRIPE_CAP_DEPTH/2]) 
-                cube([LED_STRIPE_CAP_WIDTH, 
-                      LED_STRIPE_CAP_HEIGHT, 
-                      LED_STRIPE_CAP_DEPTH+0.01], 
-                     center = true);
+                       0]) {
+                translate([LED_STRIPE_HORIZ_DISTANCE/2, 
+                           LED_STRIPE_VERT_DISTANCE/2, 
+                           LED_HOLDER_PLATE_HEIGHT-LED_STRIPE_CAP_DEPTH/2])
+                    cube([LED_STRIPE_CAP_WIDTH, 
+                          LED_STRIPE_CAP_HEIGHT, 
+                          LED_STRIPE_CAP_DEPTH+0.01], 
+                         center = true);
+            }
+            translate([HORIZ_SIDE_EXTRA + LED_STRIPE_HORIZ_DISTANCE*x-LED_STRIPE_CAP_OFFSET_X,
+                       VERT_SIDE_EXTRA + LED_STRIPE_VERT_DISTANCE*y+LED_STRIPE_CAP_OFFSET_Y, 
+                       0]) {
+                translate([LED_STRIPE_HORIZ_DISTANCE/2, 
+                           LED_STRIPE_VERT_DISTANCE/2, 
+                           LED_HOLDER_PLATE_HEIGHT-LED_STRIPE_CAP_DEPTH/2])
+                    cube([LED_STRIPE_CAP_WIDTH, 
+                          LED_STRIPE_CAP_HEIGHT, 
+                          LED_STRIPE_CAP_DEPTH+0.01], 
+                         center = true);
+            }
 		}
 	}
 }

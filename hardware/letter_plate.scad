@@ -4,6 +4,12 @@
 
 include <config.scad>
 
+module triangle(point1, point2, depth) {
+    linear_extrude(height=depth)
+        polygon(points=[[0,0], point1, point2],
+                paths=[[0,1,2]]);
+}
+
 module letter(v, special) {
     if (special) {
         text(text = v, size = FONT_SPECIAL_SIZE, valign="center", halign="center", font=FONT_SPECIAL);
@@ -111,6 +117,16 @@ module corner_holes_walls(offset=0,h=OUTER_WALL_HEIGHT) {
                TOTAL_HEIGHT - CORNER_MOUNTING_HOLE_WALL_DIAMETER - CORNER_MOUNTING_HOLE_OFFSET,
                0]) 
         corner_hole_wall(offset=offset,h=h);
+    pos = CORNER_MOUNTING_HOLE_OFFSET + HORIZ_SIDE_EXTRA/1.2;
+
+    translate([0, 0, 0])
+        triangle([pos, 0], [0, pos], TOTAL_DEPTH);
+    translate([TOTAL_WIDTH, 0, 0])
+        triangle([0, pos], [-pos, 0], TOTAL_DEPTH);
+    translate([TOTAL_WIDTH, TOTAL_HEIGHT, 0])
+        triangle([0, -pos], [-pos, 0], TOTAL_DEPTH);
+    translate([0, TOTAL_HEIGHT, 0])
+        triangle([0, -pos], [pos, 0], TOTAL_DEPTH);
 }
 
 module corner_holes_walls_bump() {
