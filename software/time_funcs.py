@@ -48,8 +48,8 @@ def get_pixels_for_value(value):
     return [y * LETTERPLATE_WIDTH + x for x in range(idx, end_idx + 1, 1)]
 
 
-def get_pixels_for_time(current_time):
-    closest_minutes = get_closest_value(MINUTES_TABLE, current_time.minute)
+def get_pixels_for_time(hours, minutes):
+    closest_minutes = get_closest_value(MINUTES_TABLE, minutes)
 
     pixels = []
 
@@ -57,9 +57,9 @@ def get_pixels_for_time(current_time):
         if isinstance(v, str):
             hour = None
             if v == 'CURRENT_HOUR':
-                hour = current_time.hour
+                hour = hours
             elif v == 'NEXT_HOUR':
-                hour = (current_time.hour + 1) % 24
+                hour = (hours + 1) % 24
 
             for h in HOURS_TABLE[hour]:
                 pixels.extend(get_pixels_for_value(h))

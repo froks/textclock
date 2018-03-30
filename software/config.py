@@ -1,4 +1,3 @@
-#üöä
 LETTERPLATE = ["EINSZWANZIG",  # 0
                "DREIVIERTEL",  # 1
                "FÜNFZEHNELF",  # 2
