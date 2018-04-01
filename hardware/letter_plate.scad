@@ -3,12 +3,7 @@
 // (c) 2018 Florian Roks <florian.roks (a) gmail.com>
 
 include <config.scad>
-
-module triangle(point1, point2, depth) {
-    linear_extrude(height=depth)
-        polygon(points=[[0,0], point1, point2],
-                paths=[[0,1,2]]);
-}
+use <common.scad>
 
 module letter(v, special) {
     if (special) {
@@ -136,7 +131,6 @@ module corner_holes_walls_bump() {
     }
 }
 
-
 module corner_hole() {
     translate([CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
                CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
@@ -167,13 +161,17 @@ module corner_holes() {
 
 module clock_front() {
     difference() {
-        union() {
-            outer_frame();
-            front_plate();
-            inner_separator_grid();
-            screw_hole_walls();
-            corner_holes_walls_bump();
-            corner_holes_walls();
+        intersection() {
+            round_edges_cube();
+
+            union() {
+                outer_frame();
+                front_plate();
+                inner_separator_grid();
+                screw_hole_walls();
+                corner_holes_walls_bump();
+                corner_holes_walls();
+            }
         }
         letter_cutouts();
         screw_holes();

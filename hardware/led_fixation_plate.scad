@@ -4,7 +4,8 @@
 
 
 include <config.scad>
-use <led_holder_plate.scad>
+use <common.scad>
+use <letter_plate.scad>
 
 module led_fixation_plate_cutouts() {
     for (y = [0 : 1 : LETTER_MATRIX_HEIGHT - 1]) {

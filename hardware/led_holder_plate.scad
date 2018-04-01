@@ -3,6 +3,7 @@
 // (c) 2018 Florian Roks <florian.roks (a) gmail.com>
 
 include <config.scad>
+use <common.scad>
 use <letter_plate.scad>
 
 module led_holes() {
@@ -85,17 +86,6 @@ module separator_cutout() {
                   LED_HOLDER_PLATE_DIVIDER_CUTOUT_DEPTH/2])
         cylinder(d=LETTER_PLATE_SCREW_INSERT_DIAMETER+LETTER_PLATE_SCREW_INSERT_WALL_THICKNESS+LED_HOLDER_PLATE_DIVIDER_CUTOUT_TOLERANCE, 
                  h=LED_HOLDER_PLATE_DIVIDER_CUTOUT_DEPTH+0.01, center=true);
-    }
-}
-
-module fit_inner_cube() {
-    size_x = TOTAL_WIDTH-2*OUTER_WALL_THICKNESS-2*INNER_PLATE_TOLERANCE;     size_y = TOTAL_HEIGHT-2*OUTER_WALL_THICKNESS-2*INNER_PLATE_TOLERANCE;
-    difference() {
-        translate([OUTER_WALL_THICKNESS+INNER_PLATE_TOLERANCE,
-                   OUTER_WALL_THICKNESS+INNER_PLATE_TOLERANCE, 
-                   -10])
-            cube([size_x, size_y, 100]);
-        corner_holes_walls(offset = INNER_PLATE_TOLERANCE, h=100);
     }
 }
 
