@@ -1,7 +1,10 @@
-ampy -p COM5 put main.py
-ampy -p COM5 put wifimgr.py
-ampy -p COM5 put clock.py
-ampy -p COM5 put config.py
-ampy -p COM5 put time_funcs.py
-ampy -p COM5 put dst.py
-ampy -p COM5 put hw.py
+set AMPY_PORT=COM5
+ampy put main.py
+ampy put wifimgr.py
+ampy put clock.py
+ampy put config.py
+ampy put time_funcs.py
+ampy put dst.py
+ampy put hw.py
+ampy reset
+

@@ -23,7 +23,11 @@ def refresh_time_display():
 def start():
     sync_time_ntp()
     refresh_time_display()
-    hw.init_clock_timers(lambda x: refresh_time_display(), lambda x: sync_time_ntp())
+    hw.add_timer(30000, lambda x: refresh_time_display())  # update the displayed letters every 30 seconds
+    hw.add_timer(600000, lambda x: sync_time_ntp())  # the rtc of esp8266 is *bad*, update from network every 10 minutes
+
+    while True:
+        hw.pixel_effect()
 
 
 if __name__ == '__main__':
