@@ -5,12 +5,14 @@
 include <config.scad>
 use <common.scad>
 
-module letter(v, special) {
-    if (special) {
-        text(text = v, size = FONT_SPECIAL_SIZE, valign="center", halign="center", font=FONT_SPECIAL);
-    } else {
-        text(text = v, size = FONT_NORMAL_SIZE, valign="center", halign="center", font=FONT_NORMAL);
-    }
+function strToNbr(str, i=0, nb=0) = i == len(str) ? nb : nb+strToNbr(str, i+1, search(str[i],"0123456789")[0]*pow(10,len(str)-i-1));
+
+module letter(x, y) {
+    letter = LETTERFACE[y][x];
+    font_index = strToNbr(LETTERFACE_FONTS[y][x]);
+    font = FONT_NAMES[font_index];
+    size = FONT_SIZES[font_index];
+    text(text=letter, size=size, valign="center", halign="center", font=font);
 }
 
 module letter_cutouts() {
@@ -26,7 +28,6 @@ module letter_cutouts() {
                     linear_extrude(height=LETTER_PLATE_THICKNESS)
                             rotate([0,180,0])
                                 letter(v = LETTERFACE[y][x],
-                                       special = (LETTER_MATRIX_HEIGHT-1 == y),
                                        x=x, y=y);
                 }
             }
@@ -131,34 +132,6 @@ module corner_holes_walls_bump() {
     }
 }
 
-module corner_hole() {
-    translate([CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
-               CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
-               CORNER_MOUNTING_HOLE_INSERT_HEIGHT/2 + OUTER_WALL_HEIGHT - CORNER_MOUNTING_HOLE_INSERT_HEIGHT])
-        cylinder(h=CORNER_MOUNTING_HOLE_INSERT_HEIGHT+0.01, 
-                 d=CORNER_MOUNTING_HOLE_INSERT_DIAMETER, 
-                 center=true);
-}
-
-module corner_holes() {
-    translate([CORNER_MOUNTING_HOLE_OFFSET,
-               CORNER_MOUNTING_HOLE_OFFSET,
-               0]) 
-        corner_hole();
-    translate([CORNER_MOUNTING_HOLE_OFFSET,
-               TOTAL_HEIGHT-CORNER_MOUNTING_HOLE_WALL_DIAMETER-CORNER_MOUNTING_HOLE_OFFSET,
-               0]) 
-        corner_hole();
-    translate([TOTAL_WIDTH-CORNER_MOUNTING_HOLE_WALL_DIAMETER-CORNER_MOUNTING_HOLE_OFFSET,
-               CORNER_MOUNTING_HOLE_OFFSET,
-               0]) 
-        corner_hole();
-    translate([TOTAL_WIDTH-CORNER_MOUNTING_HOLE_WALL_DIAMETER - CORNER_MOUNTING_HOLE_OFFSET,
-               TOTAL_HEIGHT-CORNER_MOUNTING_HOLE_WALL_DIAMETER - CORNER_MOUNTING_HOLE_OFFSET,
-               0]) 
-        corner_hole();
-}
-
 module clock_front() {
     difference() {
         intersection() {
@@ -175,7 +148,9 @@ module clock_front() {
         }
         letter_cutouts();
         screw_holes();
-        corner_holes();
+        corner_holes(d=CORNER_MOUNTING_HOLE_INSERT_DIAMETER, 
+		             h=CORNER_MOUNTING_HOLE_INSERT_HEIGHT, 
+					 offset=OUTER_WALL_HEIGHT);
     }
     
 }

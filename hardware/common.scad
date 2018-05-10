@@ -1,16 +1,29 @@
 include <config.scad>
 use <letter_plate.scad>
 
-module rounded_cube(xyz, r) {
-    x = xyz[0];
-    y = xyz[1];
-    z = xyz[2];
-    hull() {
-        translate([r, r, 0]) cylinder(h=z, r=r);
-        translate([x-r, r, 0]) cylinder(h=z, r=r);
-        translate([x-r, y-r, 0]) cylinder(h=z, r=r);
-        translate([r, y-r, 0]) cylinder(h=z, r=r);
-    }
+module rounded_cube(size, r, offset=0) {
+    x = size[0];
+    y = size[1];
+    z = size[2];
+	hull() {
+		translate([r+offset, r+offset, 0]) cylinder(h=z, r=r);
+		translate([x-r-offset, r+offset, 0]) cylinder(h=z, r=r);
+		translate([x-r-offset, y-r-offset, 0]) cylinder(h=z, r=r);
+		translate([r+offset, y-r-offset, 0]) cylinder(h=z, r=r);
+	}
+}
+
+module rounded_triangle(size, r) {
+	width = size[0];
+	height = size[1];
+	depth = size[2];
+	hull() {
+		union() {
+			translate([-width/2, 0, depth/2]) cylinder(h=depth, r=r, center=true);
+			translate([+width/2, 0, depth/2]) cylinder(h=depth, r=r, center=true);
+			translate([0, height, depth/2]) cylinder(h=depth, r=r, center=true);
+		}
+	}
 }
 
 module triangle(point1, point2, depth) {
@@ -19,8 +32,8 @@ module triangle(point1, point2, depth) {
                 paths=[[0,1,2]]);
 }
 
-module round_edges_cube() {
-    translate([0, 0, -50]) rounded_cube([TOTAL_WIDTH, TOTAL_HEIGHT, 100], r=3);
+module round_edges_cube(offset=0) {
+    translate([0, 0, -50]) rounded_cube([TOTAL_WIDTH, TOTAL_HEIGHT, 100], r=ROUND_EDGES_RADIUS, offset=offset);
 }
 
 module fit_inner_cube() {
@@ -32,5 +45,33 @@ module fit_inner_cube() {
             cube([size_x, size_y, 100]);
         corner_holes_walls(offset = INNER_PLATE_TOLERANCE, h=100);
     }
+}
+
+module corner_hole(d, h, offset) {
+    translate([CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
+               CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
+               h/2 + offset - h])
+        cylinder(h=h+0.01, 
+                 d=d, 
+                 center=true);
+}
+
+module corner_holes(d, h, offset) {
+    translate([CORNER_MOUNTING_HOLE_OFFSET,
+               CORNER_MOUNTING_HOLE_OFFSET,
+               0]) 
+        corner_hole(d, h, offset);
+    translate([CORNER_MOUNTING_HOLE_OFFSET,
+               TOTAL_HEIGHT-CORNER_MOUNTING_HOLE_WALL_DIAMETER-CORNER_MOUNTING_HOLE_OFFSET,
+               0]) 
+        corner_hole(d, h, offset);
+    translate([TOTAL_WIDTH-CORNER_MOUNTING_HOLE_WALL_DIAMETER-CORNER_MOUNTING_HOLE_OFFSET,
+               CORNER_MOUNTING_HOLE_OFFSET,
+               0]) 
+        corner_hole(d, h, offset);
+    translate([TOTAL_WIDTH-CORNER_MOUNTING_HOLE_WALL_DIAMETER - CORNER_MOUNTING_HOLE_OFFSET,
+               TOTAL_HEIGHT-CORNER_MOUNTING_HOLE_WALL_DIAMETER - CORNER_MOUNTING_HOLE_OFFSET,
+               0]) 
+        corner_hole(d, h, offset);
 }
 

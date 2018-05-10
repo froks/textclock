@@ -2,10 +2,16 @@
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // (c) 2018 Florian Roks <florian.roks (a) gmail.com>
 
-FONT_NORMAL = "DejaVu Sans Mono";
-FONT_NORMAL_SIZE = 10;
-FONT_SPECIAL = "DejaVu Sans Mono";
-FONT_SPECIAL_SIZE = FONT_NORMAL_SIZE;
+FONT_NAMES = ["DejaVu Sans Mono", // 0
+              "DejaVu Sans", // 1
+              "Segoe UI Emoji",
+			  "Segoe UI Symbol"];     // 2
+
+FONT_SIZES = [10,
+              10,
+			  9,
+			  10];
+
 
 // FIVE TEN QUARTER TWENTY TWENTYFIVE HALF
 
@@ -16,12 +22,22 @@ FONT_SPECIAL_SIZE = FONT_NORMAL_SIZE;
 // O CLOCK
 
 
-LETTERFACE = ["TWENTYFIVE_", 
+LETTERFACE = ["TWENTYFIVEN", 
               "QUARTERHALF",
-              "TEN_PAST_TO",
-              "TWOONETHREE",
+              "TENEPASTNTO",
+              "TWONETHREEQ",
 			  "SIXFIVEFOUR",
 			  "SEVENELEVEN",
-			  "TENINEIGHT_",
-			  "TWELVE_____",
-			  "O'CLOCK____";
+			  "NINEIGHTENTED",
+			  "TWELVE\u263C\u2601\uE288\u2744\u26A1",
+			  "\u2022\u2022O'CLOCK\u2022\u2022"];
+
+LETTERFACE_FONTS = ["00000000000",
+                    "00000000000",
+                    "00000000000",
+                    "00000000000",
+                    "00000000000",
+                    "00000000000",
+                    "00000000000",
+                    "00000013311",
+                    "00000000000"];
