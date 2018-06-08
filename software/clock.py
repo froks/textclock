@@ -3,16 +3,18 @@ import dst
 import utime
 import ntptime
 import hw
+import urtc
 
 
 def sync_time_ntp():
     ntptime.settime()
+    hw.rtc.datetime(datetime=utime.localtime(utime.time()))
     print("NTP - time synced")
 
 
 def refresh_time_display():
     print('updating time-display')
-    local_timestamp = dst.apply_dst_offset(utime.time())
+    local_timestamp = dst.apply_dst_offset(urtc.tuple2seconds(hw.rtc.datetime()))
     time_tuple = utime.localtime(local_timestamp)
     print(time_tuple)
     px = time_funcs.get_pixels_for_time(time_tuple[3], time_tuple[4])
@@ -21,10 +23,10 @@ def refresh_time_display():
 
 
 def start():
-    sync_time_ntp()
+    #sync_time_ntp()
     refresh_time_display()
     hw.add_timer(30000, lambda x: refresh_time_display())  # update the displayed letters every 30 seconds
-    hw.add_timer(600000, lambda x: sync_time_ntp())  # the rtc of esp8266 is *bad*, update from network every 10 minutes
+    #hw.add_timer(600000, lambda x: sync_time_ntp())  # the rtc of esp8266 is *bad*, update from network every 10 minutes
 
     while True:
         hw.pixel_effect()

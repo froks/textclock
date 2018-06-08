@@ -7,11 +7,16 @@ LETTERPLATE = ["EINSZWANZIG",  # 0
                "XSECHSIEBEN",  # 6
                "QYZWÖLFÜNFJ",  # 7
                "GVIERPZEHNO",  # 8
-               "⚠♻✉ʘⅠⅡ☼☁☂❄⚡",  # "\u26a0\u267B\u2709\u0298\u2160\u2161\u263C\u2601\u2602\u2744\u26A1"
+               "⚠♻✉UHR☼☁☂❄⚡",  # "\u26a0\u267B\u2709\u0298\u2160\u2161\u263C\u2601\u2602\u2744\u26A1"
                ]
 
 LETTERPLATE_WIDTH = len(LETTERPLATE[0])
 
+# the right hand site in the following tables take an array of strings or tuples (or mixed)
+
+# a tuple can be used in both tables, it consists of the line and the characters to be highlighted (lines start at 0!)
+# a string in the MINUTES_TABLE may also contain 'CURRENT_HOUR' or 'NEXT_HOUR', which refer to the HOURS_TABLE, and add
+# the tuples in those to highlight
 MINUTES_TABLE = {
     0:  ['CURRENT_HOUR'],
     5:  [(2, 'FÜNF'), (3, 'NACH'), 'CURRENT_HOUR'],

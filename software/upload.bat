@@ -6,5 +6,6 @@ ampy put config.py
 ampy put time_funcs.py
 ampy put dst.py
 ampy put hw.py
+ampy put urtc.py
 ampy reset
 

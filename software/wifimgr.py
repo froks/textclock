@@ -86,6 +86,7 @@ def do_connect(ssid, password):
         return None
     print('Trying to connect to %s...' % ssid)
     wlan_sta.connect(ssid, password)
+    connected = False
     for retry in range(100):
         connected = wlan_sta.isconnected()
         if connected:

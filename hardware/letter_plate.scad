@@ -27,8 +27,7 @@ module letter_cutouts() {
                     0]) {
                     linear_extrude(height=LETTER_PLATE_THICKNESS)
                             rotate([0,180,0])
-                                letter(v = LETTERFACE[y][x],
-                                       x=x, y=y);
+                                letter(x=x, y=y);
                 }
             }
         }
@@ -132,6 +131,17 @@ module corner_holes_walls_bump() {
     }
 }
 
+module outer_walls_bump() {
+    union() {
+        cube([TOTAL_WIDTH, OUTER_WALL_THICKNESS+1, LETTER_SEPARATOR_HEIGHT]);
+        cube([OUTER_WALL_THICKNESS+1, TOTAL_HEIGHT, LETTER_SEPARATOR_HEIGHT]);
+        translate([0,TOTAL_HEIGHT-OUTER_WALL_THICKNESS-1,0]) 
+            cube([TOTAL_WIDTH, OUTER_WALL_THICKNESS+1, LETTER_SEPARATOR_HEIGHT]);
+        translate([TOTAL_WIDTH-OUTER_WALL_THICKNESS-1,0,0]) 
+            cube([OUTER_WALL_THICKNESS+1, TOTAL_HEIGHT, LETTER_SEPARATOR_HEIGHT]);
+    }
+}
+
 module clock_front() {
     difference() {
         intersection() {
@@ -141,6 +151,7 @@ module clock_front() {
                 outer_frame();
                 front_plate();
                 inner_separator_grid();
+                outer_walls_bump();
                 screw_hole_walls();
                 corner_holes_walls_bump();
                 corner_holes_walls();

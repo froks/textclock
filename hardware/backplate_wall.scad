@@ -130,19 +130,15 @@ module cable_holder() {
         translate([TOTAL_WIDTH/2 - 2.5, 0.01, 0.01])
             rotate([0,0,0])
                 cube([5, 10, BACKPLATE_HEIGHT/3*2],
-                             r=1);
+                             r=1); // cube
         translate([TOTAL_WIDTH/2, 0, BACKPLATE_HEIGHT/3*2]) 
-            rotate([90, 0, 0]) 
+            rotate([90, 0, 0]) // cable 
                 cylinder(r=2.8,h=100,center=true);
         translate([TOTAL_WIDTH/2 - 10, 5-1.5, BACKPLATE_HEIGHT/2-0.5]) 
-            cube([20, 3, 3]);
+            cube([20, 3, 3]); // cutout, so zip-tie is firm
         
-        translate([TOTAL_WIDTH/2+0.72, 5, BACKPLATE_HEIGHT/2-2])
-            rotate([0, -30, 0]) 
-                cube([20, 3, 1.5], center=true);
-        
-        translate([TOTAL_WIDTH/2-0.72, 5, BACKPLATE_HEIGHT/2-2])
-            rotate([0, +30, 0]) 
+        translate([TOTAL_WIDTH/2+0.72, 5, 0.01+BACKPLATE_HEIGHT
+        +1.5/2-BACKPLATE_HOLE_OFFSET])
                 cube([20, 3, 1.5], center=true);
     }
 }
@@ -173,6 +169,6 @@ module backplate_wall() {
 }
 
 
-//translate([TOTAL_WIDTH, 0, BACKPLATE_HEIGHT])
-//    rotate([0, 180, 0])
-backplate_wall();
+translate([TOTAL_WIDTH, 0, BACKPLATE_HEIGHT])
+    rotate([0, 180, 0])
+        backplate_wall();

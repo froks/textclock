@@ -1,17 +1,20 @@
 import machine
 import neopixel
+import urtc
 
 import config
 
 pin = machine.Pin(0, machine.Pin.OUT)
 
 np = neopixel.NeoPixel(pin, len(config.LETTERPLATE) * config.LETTERPLATE_WIDTH, bpp=4)
+i2c = machine.I2C(freq=100000,scl=machine.Pin(5), sda=machine.Pin(4))
+rtc = urtc.DS1307(i2c=i2c, address=104)
 
 lit_pixels = []
 old_lit_pixels = []
 
-def update_lit_pixelarray(pixels):
 
+def update_lit_pixelarray(pixels):
     global lit_pixels, old_lit_pixels
     old_lit_pixels = lit_pixels
     lit_pixels = pixels
@@ -48,6 +51,7 @@ def pixel_effect():
             np[i] = (wheel_color(((i * int(384 / np.n)) + j) % 384))
 
         np.write()
+
 
 # def init_clock_timers(update_clock, update_ntp):
 #     global clock_timer
