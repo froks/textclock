@@ -41,3 +41,6 @@ LETTERFACE_FONTS = ["00000000000",
                     "00000000000",
                     "00000013311",
                     "00000000000"];
+
+CONFIG_HORIZ_EXTRA = 10;
+CONFIG_VERT_EXTRA = 0;

@@ -48,3 +48,6 @@ OUTER_WALL_HEIGHT = 2 + LETTER_SEPARATOR_HEIGHT + (LED_HOLDER_PLATE_HEIGHT-LED_H
 // 2mm height tolerance to adjust fitting and led-stripe height
 
 ROUND_EDGES_RADIUS = 3;
+
+CONFIG_HORIZ_EXTRA = 0;
+CONFIG_VERT_EXTRA = 0;
