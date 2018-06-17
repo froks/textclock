@@ -1,0 +1,19 @@
+ // in most cases only pins 0, 2, 4, 5, 12, 13, 14, 15, and 16 can be used.
+ 
+Pin(0) = D3
+Pin(2) = LED an Antenne (off = Leuchtet)
+Pin(4) = D2
+Pin(5) = D1
+Pin(12) = D6
+
+sda = D2 = 4
+scl = D1 = 5
+
+
+import machine
+
+i2c = machine.I2C(freq=100000,scl=machine.Pin(5), sda=machine.Pin(4))
+
+import urtc
+
+rtc = urtc.DS1307(i2c, 104)
