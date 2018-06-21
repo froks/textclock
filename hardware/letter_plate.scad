@@ -66,22 +66,23 @@ module inner_separator_grid() {
     }   
 }
 
-module screw_hole_walls() {
+module screw_hole_walls(z_offset) {
     for (p = LETTER_PLATE_MOUNTING_HOLE_POSITIONS) {
         translate([HORIZ_SIDE_EXTRA + LED_STRIPE_HORIZ_DISTANCE * p[0], 
                    VERT_SIDE_EXTRA + LED_STRIPE_VERT_DISTANCE * p[1], 
-                   LETTER_SEPARATOR_HEIGHT - LETTER_SEPARATOR_HEIGHT]) 
-            cylinder(h=LETTER_SEPARATOR_HEIGHT, d=LETTER_PLATE_SCREW_WALL_DIAMETER);
+                   z_offset]) 
+            cylinder(h=LETTER_SEPARATOR_HEIGHT, 
+                     d=LETTER_PLATE_SCREW_WALL_DIAMETER);
     }
 }
 
-module screw_holes() {
+module screw_holes(z_offset, d) {
     for (p = LETTER_PLATE_MOUNTING_HOLE_POSITIONS) {
         translate([HORIZ_SIDE_EXTRA + LED_STRIPE_HORIZ_DISTANCE * p[0],
                    VERT_SIDE_EXTRA + LED_STRIPE_VERT_DISTANCE * p[1],
-                   LETTER_SEPARATOR_HEIGHT - LETTER_PLATE_SCREW_INSERT_HEIGHT]) 
+                   z_offset]) 
             cylinder(h=LETTER_PLATE_SCREW_INSERT_HEIGHT+0.01, 
-                     d=LETTER_PLATE_SCREW_INSERT_DIAMETER);
+                     d=d);
     }
     
 }
@@ -142,6 +143,9 @@ module outer_walls_bump() {
     }
 }
 
+CABLE_SLOT_WIDTH = 5;
+CABLE_SLOT_CORNERS = 2;
+
 module clock_front() {
     difference() {
         intersection() {
@@ -152,16 +156,19 @@ module clock_front() {
                 front_plate();
                 inner_separator_grid();
                 outer_walls_bump();
-                screw_hole_walls();
+                screw_hole_walls(z_offset=LETTER_SEPARATOR_HEIGHT - LETTER_SEPARATOR_HEIGHT);
                 corner_holes_walls_bump();
                 corner_holes_walls();
             }
         }
         letter_cutouts();
-        screw_holes();
+        screw_holes(z_offset=LETTER_SEPARATOR_HEIGHT - LETTER_PLATE_SCREW_INSERT_HEIGHT, d=LETTER_PLATE_SCREW_INSERT_DIAMETER);
         corner_holes(d=CORNER_MOUNTING_HOLE_INSERT_DIAMETER, 
 		             h=CORNER_MOUNTING_HOLE_INSERT_HEIGHT, 
 					 offset=OUTER_WALL_HEIGHT);
+        translate([TOTAL_WIDTH/2, 0, OUTER_WALL_HEIGHT-ELECTRONICS_HEIGHT/2+CABLE_SLOT_CORNERS])
+            rotate([90,90,0])
+                translate([-ELECTRONICS_HEIGHT/2, -CABLE_SLOT_WIDTH/2, -100/2]) rounded_cube([ELECTRONICS_HEIGHT, CABLE_SLOT_WIDTH, 100], CABLE_SLOT_CORNERS);
     }
     
 }

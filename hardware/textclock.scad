@@ -6,16 +6,17 @@
 use <led_holder_plate.scad>;
 use <led_fixation_plate.scad>;
 use <letter_plate.scad>;
+use <backplate_wall.scad>;
 include <config.scad>
 
-exploded_view = true;
-
-// assembly-view
-clock_front();
+exploded_view = false;
 
 exploded_offset_diff = 10;
 
 led_holder_plate_z_offset = LETTER_SEPARATOR_HEIGHT-LED_HOLDER_PLATE_DIVIDER_CUTOUT_DEPTH;
+
+// assembly-view
+clock_front();
 
 translate([0,
            0,
@@ -24,7 +25,11 @@ translate([0,
 
 led_fixation_plate_z_offset = led_holder_plate_z_offset + LED_HOLDER_PLATE_HEIGHT;
 
-%translate([0,
+translate([0,
             0,
             (exploded_view ? 3*exploded_offset_diff : 0) + led_fixation_plate_z_offset])
     led_fixation_plate();
+    
+translate([0, 0, OUTER_WALL_HEIGHT])
+    #backplate_wall();
+    

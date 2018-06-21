@@ -52,15 +52,6 @@ module cap_holes() {
 	}
 }
 
-module screw_holes() {
-   for (p = LETTER_PLATE_MOUNTING_HOLE_POSITIONS) {
-       translate([HORIZ_SIDE_EXTRA + LED_STRIPE_HORIZ_DISTANCE*p[0], 
-                  VERT_SIDE_EXTRA + LED_STRIPE_VERT_DISTANCE*p[1],
-                  0]) 
-        cylinder(d=SCREW_DIAMETER, h=100, center=true);
-   }
-}
-
 module separator_cutout() {
     for (y = [0 : 1 : LETTER_MATRIX_HEIGHT]) {
         translate([TOTAL_WIDTH/2, 
@@ -73,7 +64,7 @@ module separator_cutout() {
     }
     for (x = [0 : 1 : LETTER_MATRIX_WIDTH]) {
         translate([HORIZ_SIDE_EXTRA + LED_STRIPE_HORIZ_DISTANCE*x, 
-                   VERT_SIDE_EXTRA + TOTAL_HEIGHT/2, 
+                   TOTAL_HEIGHT/2, 
                    LED_HOLDER_PLATE_DIVIDER_CUTOUT_DEPTH/2]) 
             cube([LETTER_SEPARATOR_THICKNESS + LED_HOLDER_PLATE_DIVIDER_CUTOUT_TOLERANCE, 
                   TOTAL_WIDTH, 
@@ -97,7 +88,7 @@ module led_holder_plate() {
                   LED_HOLDER_PLATE_HEIGHT]);
             led_holes();
             cap_holes();
-            screw_holes();
+            screw_holes(z_offset=-0.01, d=SCREW_DIAMETER);
             separator_cutout();
         };
         translate([0,0,-30]) fit_inner_cube();
