@@ -1,6 +1,6 @@
-LETTERPLATE = ["EINSZWANZIG",  # 0
+LETTERPLATE = ["FÜNFZWANZIG",  # 0
                "DREIVIERTEL",  # 1
-               "FÜNFZEHNELF",  # 2
+               "EINSZEHNELF",  # 2
                "VORHALBNACH",  # 3
                "ACHTNEUNELF",  # 4
                "ZWEIKDREINS",  # 5
@@ -19,15 +19,17 @@ LETTERPLATE_WIDTH = len(LETTERPLATE[0])
 # the tuples in those to highlight
 MINUTES_TABLE = {
     0:  ['CURRENT_HOUR'],
-    5:  [(2, 'FÜNF'), (3, 'NACH'), 'CURRENT_HOUR'],
+    5:  [(0, 'FÜNF'), (3, 'NACH'), 'CURRENT_HOUR'],
     10: [(2, 'ZEHN'), (3, 'NACH'), 'CURRENT_HOUR'],
     15: [(1, 'VIERTEL'), (3, 'NACH'), 'CURRENT_HOUR'],
     20: [(0, 'ZWANZIG'), (3, 'NACH'), 'CURRENT_HOUR'],
+    25: [(0, 'FÜNFZWANZIG'), (3, 'NACH'), 'CURRENT_HOUR'],
     30: [(3, 'HALB'), 'NEXT_HOUR'],
+    35: [(0, 'FÜNFZWANZIG'), (3, 'VOR'), 'NEXT_HOUR'],
     40: [(0, 'ZWANZIG'), (3, 'VOR'), 'NEXT_HOUR'],
     45: [(1, 'VIERTEL'), (3, 'VOR'), 'NEXT_HOUR'],
     50: [(2, 'ZEHN'), (3, 'VOR'), 'NEXT_HOUR'],
-    55: [(2, 'FÜNF'), (3, 'VOR'), 'NEXT_HOUR'],
+    55: [(0, 'FÜNF'), (3, 'VOR'), 'NEXT_HOUR'],
     60: ['NEXT_HOUR'],
 }
 

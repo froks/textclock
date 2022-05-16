@@ -1,1 +1,4 @@
 *.stl
+.idea
+__pycache__
+
