@@ -11,7 +11,7 @@
   ```
   SSID-Name;WifiPassword
   ```
-  replace SSID-Name with your wifis SSID and WifiPassword with the password for it.
+  replace SSID-Name with your wifis SSID and WifiPassword with the password for it. Make sure there's only a `\n` line-ending or none at all.
   
 7. Run `ampy -d 1 -p /dev/cu.<name_of_the_device_from_step_5> upload wifi.dat`
 8. Restart the clock by pressing reset, or turning it off and on again
