@@ -15,19 +15,12 @@ class Pin:
         pass
 
 
-class Timer:
-    PERIODIC = 1
-
+class TimerTask:
     t = None
     callback = None
     period = None
 
-    def __init__(self, id):
-        pass
-
-    def init(self, period, mode, callback):
-        if mode != self.PERIODIC:
-            raise Exception('unknown mode')
+    def __init__(self, period, callback):
         self.period = period
         self.callback = callback
         self.t = threading.Timer(interval=self.period/1000, function=self.obj_callback)
@@ -37,6 +30,21 @@ class Timer:
         self.callback(self)
         self.t = threading.Timer(interval=self.period/1000, function=self.obj_callback)
         self.t.start()
+
+
+class Timer:
+    PERIODIC = 1
+
+    tasks = []
+
+    def __init__(self, id):
+        pass
+
+    def init(self, period, mode, callback):
+        if mode != self.PERIODIC:
+            raise Exception('unknown mode')
+        self.tasks.append(TimerTask(period, callback))
+
 
 class I2C:
     def __init__(self, freq, scl, sda):

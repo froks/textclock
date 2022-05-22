@@ -10,20 +10,14 @@ i2c = machine.I2C(freq=100000, sda=machine.Pin(4), scl=machine.Pin(5))
 # i2c = machine.I2C(freq=100000, sda=machine.Pin(5), scl=machine.Pin(4))
 rtc = urtc.DS1307(i2c=i2c, address=104)
 
-lit_pixels = []
-old_lit_pixels = []
-
-
-def update_lit_pixelarray(pixels):
-    global lit_pixels, old_lit_pixels
-    old_lit_pixels = lit_pixels
-    lit_pixels = pixels
-
+lit_pixels = bytearray(len(config.LETTERPLATE) * config.LETTERPLATE_WIDTH)
+pixel_buffer = bytearray(len(lit_pixels))
 
 clock_timer = []
 
 
 def add_timer(period, callback):
+    # Implementation for ESP8266 (only virtual timer is supported)
     global clock_timer
     if len(clock_timer) > 0:
         timer = clock_timer[0]
@@ -48,11 +42,13 @@ def wheel_color(n):
 
 def pixel_effect():
     np.fill((0, 0, 0, 0))
+
     for j in range(0, 384 * 5):
-        for i in old_lit_pixels:
-            np[i] = (0, 0, 0, 0)
-        for i in lit_pixels:
-            np[i] = (wheel_color(((i * int(384 / np.n)) + j) % 384))
+        for i in range(len(lit_pixels)):
+            if lit_pixels[i] != 0:
+                np[i] = (wheel_color(((i * int(384 / np.n)) + j) % 384))
+            else:
+                np[i] = 0
 
         np.write()
 

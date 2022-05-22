@@ -1,4 +1,4 @@
-from config import LETTERPLATE, LETTERPLATE_WIDTH, MINUTES_TABLE, HOURS_TABLE
+from config import LETTERPLATE, LETTERPLATE_WIDTH, MINUTES_TABLE, HOURS_TABLE, LOCALE_SPECIFIC_MINUTES_FUNC
 
 
 def check_mapping(values_dict):
@@ -39,19 +39,18 @@ def get_closest_value(values_dict, key):
     return values_dict[closest_key]
 
 
-def get_pixels_for_value(value):
+def lit_pixels_for_value(value, pixel_data):
     y = value[0]
     line = LETTERPLATE[y]
     idx = line.index(value[1])
     end_idx = idx + len(value[1]) - 1
 
-    return [y * LETTERPLATE_WIDTH + x for x in range(idx, end_idx + 1, 1)]
+    for x in range(idx, end_idx + 1, 1):
+        pixel_data[y * LETTERPLATE_WIDTH + x] = 1
 
 
-def get_pixels_for_time(hours, minutes):
-    closest_minutes = get_closest_value(MINUTES_TABLE, minutes)
-
-    pixels = []
+def update_pixels_for_time(hours, minutes, pixel_data):
+    closest_minutes = get_closest_value(MINUTES_TABLE, LOCALE_SPECIFIC_MINUTES_FUNC(hours, minutes))
 
     for v in closest_minutes:
         if isinstance(v, str):
@@ -62,19 +61,16 @@ def get_pixels_for_time(hours, minutes):
                 hour = (hours + 1) % 24
 
             for h in HOURS_TABLE[hour]:
-                pixels.extend(get_pixels_for_value(h))
+                lit_pixels_for_value(h, pixel_data)
 
             continue
-        value_pixels = get_pixels_for_value(v)
-        pixels.extend(value_pixels)
-
-    return pixels
+        lit_pixels_for_value(v, pixel_data)
 
 
 def print_letterplate(pixels):
     for y in range(0, len(LETTERPLATE)):
         for x in range(0, LETTERPLATE_WIDTH):
-            if (y*LETTERPLATE_WIDTH + x) in pixels:
+            if pixels[y*LETTERPLATE_WIDTH + x] != 0:
                 print(LETTERPLATE[y][x], end='')
             else:
                 print(' ', end='')

@@ -61,3 +61,18 @@ HOURS_TABLE = {
     23: [(5, 'ELEVEN')],
     24: [(7, 'TWELVE')],
 }
+
+
+def LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC(hours, minutes, pixel_data):
+    additional_dots = minutes % 5
+    if additional_dots >= 1:
+        pixel_data[LETTERPLATE_WIDTH * 8 + 0] = 1
+    if additional_dots >= 2:
+        pixel_data[LETTERPLATE_WIDTH * 8 + 1] = 1
+    if additional_dots >= 3:
+        pixel_data[LETTERPLATE_WIDTH * 8 + 9] = 1
+    if additional_dots >= 4:
+        pixel_data[LETTERPLATE_WIDTH * 8 + 10] = 1
+
+
+LOCALE_SPECIFIC_MINUTES_FUNC = lambda hours, minutes: minutes - minutes % 5

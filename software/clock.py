@@ -4,6 +4,7 @@ import utime
 import ntptime
 import hw
 import urtc
+from config import LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC
 
 
 def sync_time_ntp():
@@ -15,23 +16,32 @@ def sync_time_ntp():
         print('Error while getting NTP-time: {}', e)
 
 
-i = 0
+time_refresh_counter = 0
 
 
 def refresh_time_display():
-    global i
+    global time_refresh_counter
     print('updating time-display')
     local_timestamp = dst.apply_dst_offset(urtc.tuple2seconds(hw.rtc.datetime()))
     time_tuple = utime.localtime(local_timestamp)
     print(time_tuple)
-    px = time_funcs.get_pixels_for_time(time_tuple[3], time_tuple[4])
-    time_funcs.print_letterplate(px)
-    hw.update_lit_pixelarray(px)
-    if i > 30:
+    # clear & fill pixel_buffer with next lit pixels
+    for i in range(len(hw.pixel_buffer)):
+        hw.pixel_buffer[i] = 0
+    time_funcs.update_pixels_for_time(time_tuple[3], time_tuple[4], hw.pixel_buffer)
+    if LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC:
+        LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC(time_tuple[3], time_tuple[4], hw.pixel_buffer)
+
+    # blit pixels to actually displayed pixels
+    for i in range(len(hw.lit_pixels)):
+        hw.lit_pixels[i] = hw.pixel_buffer[i]
+    time_funcs.print_letterplate(hw.lit_pixels)
+
+    if time_refresh_counter > 30:
         print_meminfo()
-        i = 0
+        time_refresh_counter = 0
     else:
-        i = i + 1
+        time_refresh_counter = time_refresh_counter + 1
 
 
 def print_meminfo():
@@ -49,9 +59,9 @@ def start():
     refresh_time_display()
 
     print("registering timers")
-    hw.add_timer(30000, lambda x: refresh_time_display())  # update the displayed letters every 30 seconds
+    hw.add_timer(10000, lambda x: refresh_time_display())  # update the displayed letters every 30 seconds
+    hw.add_timer(600000, lambda x: sync_time_ntp())  # the rtc of esp8266 is *bad*, update from network every 10 minutes
     # hw.add_timer(30000, lambda x: print_meminfo())
-    # hw.add_timer(600000, lambda x: sync_time_ntp())  # the rtc of esp8266 is *bad*, update from network every 10 minutes
 
     while True:
         hw.pixel_effect()
