@@ -26,6 +26,8 @@ def refresh_time_display():
     time_tuple = utime.localtime(local_timestamp)
     print(time_tuple)
     # clear & fill pixel_buffer with next lit pixels
+    # we need to buffer pixels, to ensure that we don't get weird in-between states while updating the time
+    # since pixel_effect uses hw.lit_pixels constantly to display pixels
     for i in range(len(hw.pixel_buffer)):
         hw.pixel_buffer[i] = 0
     time_funcs.update_pixels_for_time(time_tuple[3], time_tuple[4], hw.pixel_buffer)
@@ -59,7 +61,7 @@ def start():
     refresh_time_display()
 
     print("registering timers")
-    hw.add_timer(10000, lambda x: refresh_time_display())  # update the displayed letters every 30 seconds
+    hw.add_timer(10000, lambda x: refresh_time_display())  # update the displayed letters every 10 seconds
     hw.add_timer(600000, lambda x: sync_time_ntp())  # the rtc of esp8266 is *bad*, update from network every 10 minutes
     # hw.add_timer(30000, lambda x: print_meminfo())
 
