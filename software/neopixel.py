@@ -2,13 +2,14 @@
 # MIT license; Copyright (c) 2016 Damien P. George, 2021 Jim Mussared
 
 # only included to check api compatibility when debugging/testing on non-target-hw
+import time
 
 
 class NeoPixel:
     # G R B W
     ORDER = (1, 0, 2, 3)
 
-    def __init__(self, pin, n, bpp=3, timing=1):
+    def __init__(self, pin, n, bpp=3):
         self.n = n
         self.bpp = bpp
         self.buf = bytearray(n * bpp)
@@ -37,4 +38,6 @@ class NeoPixel:
                 j += bpp
 
     def write(self):
-        pass
+        print(''.join('{:02x}'.format(x) for x in self.buf))
+        time.sleep(0.01)
+

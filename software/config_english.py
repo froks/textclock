@@ -66,13 +66,13 @@ HOURS_TABLE = {
 def LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC(hours, minutes, pixel_data):
     additional_dots = minutes % 5
     if additional_dots >= 1:
-        pixel_data[LETTERPLATE_WIDTH * 8 + 0] = 1
+        pixel_data[LETTERPLATE_WIDTH * 8 + 0] = 255
     if additional_dots >= 2:
-        pixel_data[LETTERPLATE_WIDTH * 8 + 1] = 1
+        pixel_data[LETTERPLATE_WIDTH * 8 + 1] = 255
     if additional_dots >= 3:
-        pixel_data[LETTERPLATE_WIDTH * 8 + 9] = 1
+        pixel_data[LETTERPLATE_WIDTH * 8 + 9] = 255
     if additional_dots >= 4:
-        pixel_data[LETTERPLATE_WIDTH * 8 + 10] = 1
+        pixel_data[LETTERPLATE_WIDTH * 8 + 10] = 255
 
 
 LOCALE_SPECIFIC_MINUTES_FUNC = lambda hours, minutes: minutes - minutes % 5
