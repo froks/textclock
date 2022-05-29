@@ -1,7 +1,7 @@
 ## Installing micropython on the clock
 
 ### Prerequisites
-1. Make sure python is installed
+1. Make sure python is installed on your computer
 2. [Install esptool](https://docs.espressif.com/projects/esptool/en/latest/esp8266/index.html)
    ```
    pip3 install esptool

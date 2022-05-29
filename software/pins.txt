@@ -1,7 +1,10 @@
- // in most cases only pins 0, 2, 4, 5, 12, 13, 14, 15, and 16 can be used.
- 
+ESP8266:
+
+In most cases only pins 0, 2, 4, 5, 12, 13, 14, 15, and 16 can be used.
+
+On my board:
 Pin(0) = D3
-Pin(2) = LED an Antenne (off = Leuchtet)
+Pin(2) = switches LED near antenna (low = led on)
 Pin(4) = D2
 Pin(5) = D1
 Pin(12) = D6

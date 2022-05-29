@@ -91,8 +91,9 @@ module corner_hole_wall(offset=0,h=OUTER_WALL_HEIGHT) {
     translate([CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
                CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
                h/2])
-        cylinder(h=h, 
-                 d=CORNER_MOUNTING_HOLE_WALL_DIAMETER+offset, 
+        cube(size = [CORNER_MOUNTING_HOLE_WALL_DIAMETER+offset,
+                     CORNER_MOUNTING_HOLE_WALL_DIAMETER+offset, 
+                     h - WALLMOUNT_PLATE_THICKNESS], 
                  center=true);
 }
 
@@ -132,14 +133,14 @@ module corner_holes_walls_bump() {
     }
 }
 
-module outer_walls_bump() {
+module outer_walls_bump(additional_height=0) {
     union() {
-        cube([TOTAL_WIDTH, OUTER_WALL_THICKNESS+1, LETTER_SEPARATOR_HEIGHT]);
-        cube([OUTER_WALL_THICKNESS+1, TOTAL_HEIGHT, LETTER_SEPARATOR_HEIGHT]);
+        cube([TOTAL_WIDTH, OUTER_WALL_THICKNESS+1, LETTER_SEPARATOR_HEIGHT + additional_height]);
+        cube([OUTER_WALL_THICKNESS+1, TOTAL_HEIGHT, LETTER_SEPARATOR_HEIGHT + additional_height]);
         translate([0,TOTAL_HEIGHT-OUTER_WALL_THICKNESS-1,0]) 
-            cube([TOTAL_WIDTH, OUTER_WALL_THICKNESS+1, LETTER_SEPARATOR_HEIGHT]);
+            cube([TOTAL_WIDTH, OUTER_WALL_THICKNESS+1, LETTER_SEPARATOR_HEIGHT + additional_height]);
         translate([TOTAL_WIDTH-OUTER_WALL_THICKNESS-1,0,0]) 
-            cube([OUTER_WALL_THICKNESS+1, TOTAL_HEIGHT, LETTER_SEPARATOR_HEIGHT]);
+            cube([OUTER_WALL_THICKNESS+1, TOTAL_HEIGHT, LETTER_SEPARATOR_HEIGHT + additional_height]);
     }
 }
 
@@ -157,7 +158,8 @@ module clock_front() {
                 inner_separator_grid();
                 outer_walls_bump();
                 screw_hole_walls(z_offset=LETTER_SEPARATOR_HEIGHT - LETTER_SEPARATOR_HEIGHT);
-                corner_holes_walls_bump();
+//                corner_holes_walls_bump();
+
                 corner_holes_walls();
             }
         }
@@ -173,6 +175,22 @@ module clock_front() {
     
 }
 
+module tester_plate() {
+    difference() {
+        intersection() {
+            round_edges_cube();
+
+            union() {
+                front_plate();
+                inner_separator_grid();
+                outer_walls_bump(1.6);
+            }
+        }
+        letter_cutouts();
+    }
+    
+}
+
 // arranged for 3d-printing / stl-export
-clock_front();
+if (TESTER_MODE == true) { tester_plate(); } else { clock_front(); }
 
