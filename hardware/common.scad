@@ -33,7 +33,9 @@ module triangle(point1, point2, depth) {
 }
 
 module round_edges_cube(offset=0) {
-    translate([0, 0, -50]) rounded_cube([TOTAL_WIDTH, TOTAL_HEIGHT, 100], r=ROUND_EDGES_RADIUS, offset=offset);
+    translate([0, 0, -50]) 
+        rounded_cube([TOTAL_WIDTH, TOTAL_HEIGHT, 100], 
+                     r=ROUND_EDGES_RADIUS, offset=offset);
 }
 
 module fit_inner_cube() {

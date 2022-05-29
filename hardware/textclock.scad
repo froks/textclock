@@ -9,9 +9,9 @@ use <letter_plate.scad>;
 use <backplate_wall.scad>;
 include <config.scad>
 
-exploded_view = false;
+exploded_view = true;
 
-exploded_offset_diff = 10;
+exploded_offset_diff = 30;
 
 led_holder_plate_z_offset = LETTER_SEPARATOR_HEIGHT-LED_HOLDER_PLATE_DIVIDER_CUTOUT_DEPTH;
 
@@ -30,6 +30,6 @@ translate([0,
             (exploded_view ? 3*exploded_offset_diff : 0) + led_fixation_plate_z_offset])
     led_fixation_plate();
     
-translate([0, 0, OUTER_WALL_HEIGHT])
-    #backplate_wall();
+translate([0, 0, exploded_view ? 4*exploded_offset_diff : 0 ])
+    backplate_wall();
     

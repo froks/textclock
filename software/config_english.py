@@ -13,7 +13,7 @@ LETTERPLATE = ["TWENTYFIVEN",  # 0
 
 LETTERPLATE_WIDTH = len(LETTERPLATE[0])
 
-# the right hand site in the following tables take an array of strings or tuples (or mixed)
+# the right-hand site in the following tables take an array of strings or tuples (or mixed)
 
 # a tuple can be used in both tables, it consists of the line and the characters to be highlighted (lines start at 0!)
 # a string in the MINUTES_TABLE may also contain 'CURRENT_HOUR' or 'NEXT_HOUR', which refer to the HOURS_TABLE, and add
