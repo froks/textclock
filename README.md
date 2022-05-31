@@ -60,6 +60,8 @@ Since the 3d files are written in OpenSCAD, you can modify them to your needs an
 
 ### Install threaded inserts
 
+### Install led strips
+
 ## Electronics
 
 ### Prepare ESP8266

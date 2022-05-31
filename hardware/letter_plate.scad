@@ -90,7 +90,7 @@ module screw_holes(z_offset, d) {
 module corner_hole_wall(offset=0,h=OUTER_WALL_HEIGHT) {
     translate([CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
                CORNER_MOUNTING_HOLE_WALL_DIAMETER/2,
-               h/2])
+               (h - WALLMOUNT_PLATE_THICKNESS)/2])
         cube(size = [CORNER_MOUNTING_HOLE_WALL_DIAMETER+offset,
                      CORNER_MOUNTING_HOLE_WALL_DIAMETER+offset, 
                      h - WALLMOUNT_PLATE_THICKNESS], 
@@ -167,7 +167,7 @@ module clock_front() {
         screw_holes(z_offset=LETTER_SEPARATOR_HEIGHT - LETTER_PLATE_SCREW_INSERT_HEIGHT, d=LETTER_PLATE_SCREW_INSERT_DIAMETER);
         corner_holes(d=CORNER_MOUNTING_HOLE_INSERT_DIAMETER, 
 		             h=CORNER_MOUNTING_HOLE_INSERT_HEIGHT, 
-					 offset=OUTER_WALL_HEIGHT);
+					 offset=OUTER_WALL_HEIGHT - WALLMOUNT_PLATE_THICKNESS);
         translate([TOTAL_WIDTH/2, 0, OUTER_WALL_HEIGHT-ELECTRONICS_HEIGHT/2+CABLE_SLOT_CORNERS])
             rotate([90,90,0])
                 translate([-ELECTRONICS_HEIGHT/2, -CABLE_SLOT_WIDTH/2, -100/2]) rounded_cube([ELECTRONICS_HEIGHT, CABLE_SLOT_WIDTH, 100], CABLE_SLOT_CORNERS);
