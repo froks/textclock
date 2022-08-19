@@ -17,6 +17,7 @@ def sync_time_ntp():
 
 
 time_refresh_counter = 0
+display_pixels = bytearray(len(hw.current_pixels))
 
 
 def refresh_time_display():
@@ -28,16 +29,15 @@ def refresh_time_display():
     # clear & fill pixel_buffer with next lit pixels
     # we need to buffer pixels, to ensure that we don't get weird in-between states while updating the time
     # since pixel_effect uses hw.lit_pixels constantly to display pixels
-    for i in range(len(hw.pixel_buffer)):
-        hw.pixel_buffer[i] = 0
-    time_funcs.update_pixels_for_time(time_tuple[3], time_tuple[4], hw.pixel_buffer)
+    for i in range(len(display_pixels)):
+        display_pixels[i] = 0
+    time_funcs.update_pixels_for_time(time_tuple[3], time_tuple[4], display_pixels)
     if LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC:
-        LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC(time_tuple[3], time_tuple[4], hw.pixel_buffer)
+        LOCALE_SPECIFIC_PIXEL_UPDATE_FUNC(time_tuple[3], time_tuple[4], display_pixels)
 
     # blit pixels to actually displayed pixels
-    for i in range(len(hw.lit_pixels)):
-        hw.lit_pixels[i] = hw.pixel_buffer[i]
-    time_funcs.print_letterplate(hw.lit_pixels)
+    hw.update_pixels(display_pixels)
+    time_funcs.print_letterplate(display_pixels)
 
     if time_refresh_counter > 30:
         print_meminfo()

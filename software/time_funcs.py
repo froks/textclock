@@ -46,7 +46,7 @@ def lit_pixels_for_value(value, pixel_data):
     end_idx = idx + len(value[1]) - 1
 
     for x in range(idx, end_idx + 1, 1):
-        pixel_data[y * LETTERPLATE_WIDTH + x] = 1
+        pixel_data[y * LETTERPLATE_WIDTH + x] = 255
 
 
 def update_pixels_for_time(hours, minutes, pixel_data):
